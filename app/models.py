@@ -1,3 +1,4 @@
+from datetime import datetime
 from typing import List
 from sqlalchemy.orm import Mapped, mapped_column, relationship, DeclarativeBase
 from .extensions import db
@@ -16,6 +17,19 @@ class Customer(Base):
 
     tickets: Mapped[List["ServiceTicket"]] = relationship(back_populates="customer")
 
+
+class MechanicServiceTicket(Base):   # 🔧 Junction model with extra field
+    __tablename__ = "mechanic_service_tickets"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    mechanic_id: Mapped[int] = mapped_column(db.ForeignKey("mechanics.id"), nullable=False)
+    ticket_id: Mapped[int] = mapped_column(db.ForeignKey("service_tickets.id"), nullable=False)
+    start_date: Mapped[datetime] = mapped_column(db.DateTime, default=datetime.utcnow)
+
+    mechanic: Mapped["Mechanic"] = relationship(back_populates="mechanic_tickets")
+    ticket: Mapped["ServiceTicket"] = relationship(back_populates="mechanic_tickets")
+
+
 class ServiceTicket(Base):
     __tablename__ = "service_tickets"
     id: Mapped[int] = mapped_column(primary_key=True)
@@ -25,9 +39,8 @@ class ServiceTicket(Base):
     customer_id: Mapped[int] = mapped_column(db.ForeignKey("customers.id"))
 
     customer: Mapped["Customer"] = relationship(back_populates="tickets")
-    mechanics: Mapped[List["Mechanic"]] = relationship(
-        secondary="service_mechanics", back_populates="tickets"
-    )
+    mechanic_tickets: Mapped[List["MechanicServiceTicket"]] = relationship(back_populates="ticket")
+
 
 class Mechanic(Base):
     __tablename__ = "mechanics"
@@ -37,14 +50,4 @@ class Mechanic(Base):
     phone: Mapped[str] = mapped_column(db.String(20), nullable=False)
     salary: Mapped[float] = mapped_column(db.Float, nullable=False)
 
-    tickets: Mapped[List["ServiceTicket"]] = relationship(
-        secondary="service_mechanics", back_populates="mechanics"
-    )
-
-# Association table
-service_mechanics = db.Table(
-    "service_mechanics",
-    Base.metadata,
-    db.Column("ticket_id", db.ForeignKey("service_tickets.id")),
-    db.Column("mechanic_id", db.ForeignKey("mechanics.id"))
-)
+    mechanic_tickets: Mapped[List["MechanicServiceTicket"]] = relationship(back_populates="mechanic")

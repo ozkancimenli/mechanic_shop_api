@@ -1,6 +1,6 @@
 from flask import request, jsonify
 from app.extensions import db
-from app.models import ServiceTicket, Mechanic
+from app.models import ServiceTicket, Mechanic, MechanicServiceTicket
 from . import service_ticket_bp
 from .schemas import ticket_schema, tickets_schema
 
@@ -28,24 +28,21 @@ def assign_mechanic(ticket_id, mechanic_id):
     if not ticket or not mech:
         return jsonify({"error": "Ticket or Mechanic not found"}), 404
 
-    ticket.mechanics.append(mech)
+    link = MechanicServiceTicket(mechanic=mech, ticket=ticket)
+    db.session.add(link)
     db.session.commit()
-    return ticket_schema.jsonify(ticket), 200
+    return jsonify({"message": f"Mechanic {mech.id} assigned to ticket {ticket.id}"}), 200
 
 # REMOVE MECHANIC
 @service_ticket_bp.route("/<int:ticket_id>/remove-mechanic/<int:mechanic_id>", methods=["PUT"])
 def remove_mechanic(ticket_id, mechanic_id):
-    ticket = db.session.get(ServiceTicket, ticket_id)
-    mech = db.session.get(Mechanic, mechanic_id)
+    link = db.session.query(MechanicServiceTicket).filter_by(ticket_id=ticket_id, mechanic_id=mechanic_id).first()
+    if not link:
+        return jsonify({"error": "Relation not found"}), 404
 
-    if not ticket or not mech:
-        return jsonify({"error": "Ticket or Mechanic not found"}), 404
-
-    if mech in ticket.mechanics:
-        ticket.mechanics.remove(mech)
-        db.session.commit()
-
-    return ticket_schema.jsonify(ticket), 200
+    db.session.delete(link)
+    db.session.commit()
+    return jsonify({"message": f"Mechanic {mechanic_id} removed from ticket {ticket_id}"}), 200
 
 # DELETE
 @service_ticket_bp.route("/<int:id>", methods=["DELETE"])

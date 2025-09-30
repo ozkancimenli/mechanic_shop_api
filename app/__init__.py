@@ -1,3 +1,4 @@
+# app/__init__.py
 from flask import Flask
 from .extensions import db, ma
 from .models import Base
@@ -9,6 +10,7 @@ def create_app(config_file="config.py"):
     app = Flask(__name__, instance_relative_config=True)
     app.config.from_pyfile(config_file)
 
+    # init extensions
     db.init_app(app)
     ma.init_app(app)
 

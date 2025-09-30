@@ -6,6 +6,5 @@ class MechanicSchema(ma.SQLAlchemyAutoSchema):
         model = Mechanic
         load_instance = True
 
-# Tekil ve çoğul serializer
 mechanic_schema = MechanicSchema()
 mechanics_schema = MechanicSchema(many=True)
