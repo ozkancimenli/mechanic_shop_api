@@ -14,5 +14,9 @@ marshmallow==4.0.1
 marshmallow-sqlalchemy==1.4.2
 Flask-Marshmallow==1.3.0
 
-# Optional: JWT / Token Auth (if you continue with Lesson 7+)
+# Auth / Token
 python-jose==3.3.0
+
+# Rate Limiting & Caching
+flask-limiter==3.9.2
+flask-caching==2.3.0

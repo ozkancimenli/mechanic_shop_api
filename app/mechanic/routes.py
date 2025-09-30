@@ -1,8 +1,9 @@
 from flask import request, jsonify
 from app.extensions import db
-from app.models import Mechanic
+from app.models import Mechanic, MechanicServiceTicket
 from . import mechanic_bp
 from .schemas import mechanic_schema, mechanics_schema
+from sqlalchemy import func
 
 # CREATE
 @mechanic_bp.route("/", methods=["POST"])
@@ -43,3 +44,27 @@ def delete_mechanic(id):
     db.session.delete(mechanic)
     db.session.commit()
     return jsonify({"message": f"Mechanic {id} deleted"}), 200
+
+# POPULAR MECHANICS
+@mechanic_bp.route("/popular", methods=["GET"])
+def get_popular_mechanics():
+    results = (
+        db.session.query(Mechanic, func.count(MechanicServiceTicket.id).label("ticket_count"))
+        .join(MechanicServiceTicket, Mechanic.id == MechanicServiceTicket.mechanic_id)
+        .group_by(Mechanic.id)
+        .order_by(func.count(MechanicServiceTicket.id).desc())
+        .all()
+    )
+
+    data = [
+        {
+            "id": mech.id,
+            "name": mech.name,
+            "email": mech.email,
+            "phone": mech.phone,
+            "salary": mech.salary,
+            "ticket_count": ticket_count,
+        }
+        for mech, ticket_count in results
+    ]
+    return jsonify(data), 200

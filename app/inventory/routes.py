@@ -1,52 +1,75 @@
 from flask import request, jsonify
-from marshmallow import ValidationError
-from app.extensions import db
-from app.models import Inventory
+from app.extensions import db, limiter, cache
+from app.models import Inventory, ServiceTicket
 from . import inventory_bp
 from .schemas import inventory_schema, inventories_schema
 
 # CREATE
 @inventory_bp.route("/", methods=["POST"])
-def create_part():
-    try:
-        data = inventory_schema.load(request.json, session=db.session)
-    except ValidationError as err:
-        return jsonify(err.messages), 400
-
-    db.session.add(data)
+@limiter.limit("20 per hour")
+def create_inventory():
+    data = request.json
+    new_part = inventory_schema.load(data, session=db.session)
+    db.session.add(new_part)
     db.session.commit()
-    return inventory_schema.jsonify(data), 201
+    cache.clear()
+    return inventory_schema.jsonify(new_part), 201
 
 # READ ALL
 @inventory_bp.route("/", methods=["GET"])
-def get_parts():
-    parts = Inventory.query.order_by(Inventory.id.desc()).all()
+@cache.cached(timeout=60)
+def get_inventory():
+    parts = db.session.query(Inventory).all()
     return inventories_schema.jsonify(parts), 200
 
-# READ ONE
-@inventory_bp.route("/<int:part_id>", methods=["GET"])
-def get_part(part_id):
-    part = Inventory.query.get_or_404(part_id)
+# GET ONE
+@inventory_bp.route("/<int:id>", methods=["GET"])
+def get_inventory_item(id):
+    part = db.session.get(Inventory, id)
+    if not part:
+        return jsonify({"error": "Part not found"}), 404
     return inventory_schema.jsonify(part), 200
 
 # UPDATE
-@inventory_bp.route("/<int:part_id>", methods=["PUT"])
-def update_part(part_id):
-    part = Inventory.query.get_or_404(part_id)
-    payload = request.json or {}
+@inventory_bp.route("/<int:id>", methods=["PUT"])
+def update_inventory(id):
+    part = db.session.get(Inventory, id)
+    if not part:
+        return jsonify({"error": "Part not found"}), 404
 
-    if "name" in payload:
-        part.name = payload["name"]
-    if "price" in payload:
-        part.price = payload["price"]
+    data = request.json
+    for key, value in data.items():
+        setattr(part, key, value)
 
     db.session.commit()
+    cache.clear()
     return inventory_schema.jsonify(part), 200
 
 # DELETE
-@inventory_bp.route("/<int:part_id>", methods=["DELETE"])
-def delete_part(part_id):
-    part = Inventory.query.get_or_404(part_id)
+@inventory_bp.route("/<int:id>", methods=["DELETE"])
+def delete_inventory(id):
+    part = db.session.get(Inventory, id)
+    if not part:
+        return jsonify({"error": "Part not found"}), 404
+
     db.session.delete(part)
     db.session.commit()
-    return jsonify({"message": f"Part {part_id} deleted"}), 200
+    cache.clear()
+    return jsonify({"message": f"Part {id} deleted"}), 200
+
+# ADD PART TO TICKET
+@inventory_bp.route("/add-to-ticket/<int:ticket_id>/<int:part_id>", methods=["PUT"])
+def add_part_to_ticket(ticket_id, part_id):
+    ticket = db.session.get(ServiceTicket, ticket_id)
+    part = db.session.get(Inventory, part_id)
+
+    if not ticket or not part:
+        return jsonify({"error": "Ticket or Part not found"}), 404
+
+    if part in ticket.parts:
+        return jsonify({"message": "Part already assigned"}), 409
+
+    ticket.parts.append(part)
+    db.session.commit()
+    return jsonify({"message": f"Part {part.id} added to ticket {ticket.id}"}), 200
+    
