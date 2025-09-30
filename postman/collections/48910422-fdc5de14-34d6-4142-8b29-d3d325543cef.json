@@ -1,0 +1,668 @@
+{
+	"info": {
+		"_postman_id": "48910422-fdc5de14-34d6-4142-8b29-d3d325543cef",
+		"name": "Mechanic Shop API",
+		"description": "Mechanic Shop API Postman Collection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Mechanics",
+			"item": [
+				{
+					"name": "Create Mechanic",
+					"id": "48910422-547e821b-dab3-4a53-8936-1769def090d5",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"John Doe\",\n  \"email\": \"john@example.com\",\n  \"phone\": \"123456789\",\n  \"salary\": 50000\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/mechanics/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"mechanics",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Mechanics",
+					"id": "48910422-d429514e-73e2-4f9c-8dee-001e0c6f505f",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/mechanics/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"mechanics",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Mechanic",
+					"id": "48910422-3e1b22a7-4eb3-4b41-b2ed-f8f3b8e9c8ab",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{ \"salary\": 60000 }"
+						},
+						"url": {
+							"raw": "{{base_url}}/mechanics/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"mechanics",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Mechanic",
+					"id": "48910422-f4f4868b-b3c5-4385-a9a3-da419d25f386",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/mechanics/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"mechanics",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Popular Mechanics",
+					"id": "48910422-7f932668-443d-4b70-99a1-d4e9824bbf5a",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/mechanics/popular",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"mechanics",
+								"popular"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"id": "48910422-e371b6c5-db01-4265-a134-3bbc23643c55"
+		},
+		{
+			"name": "Customers",
+			"item": [
+				{
+					"name": "Create Customer",
+					"id": "48910422-9ad82561-d71b-4493-814f-aafa146d2601",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Jane Doe\",\n  \"email\": \"jane@example.com\",\n  \"phone\": \"987654321\",\n  \"password\": \"secret\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/customers/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"customers",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login Customer",
+					"id": "48910422-b98b9f47-47c9-4aa6-9137-d5f680ffa50e",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"email\": \"jane@example.com\",\n  \"password\": \"secret\"\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/customers/login",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"customers",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Customers (paginated)",
+					"id": "48910422-1a50335b-e911-489c-a25a-c9e12dd15a32",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/customers?limit=5&offset=0",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"customers"
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "5"
+								},
+								{
+									"key": "offset",
+									"value": "0"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get My Tickets (protected)",
+					"id": "48910422-eb0ea39f-2dd1-4ad1-a172-4403eade8c6e",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}"
+							}
+						],
+						"url": {
+							"raw": "{{base_url}}/customers/my-tickets",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"customers",
+								"my-tickets"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Customer",
+					"id": "48910422-312a50ca-5780-4dc0-8e0a-24ffe7227b08",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{ \"phone\": \"111222333\" }"
+						},
+						"url": {
+							"raw": "{{base_url}}/customers/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"customers",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Customer",
+					"id": "48910422-68e18792-0523-4230-bf5f-7082893aab72",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/customers/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"customers",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"id": "48910422-04a5ddc3-bc79-4667-8d20-9f3d5de0e16c"
+		},
+		{
+			"name": "Service Tickets",
+			"item": [
+				{
+					"name": "Create Ticket",
+					"id": "48910422-2696bf6b-aa86-4345-8fb0-768ad90073f6",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"VIN\": \"ABC123\",\n  \"service_date\": \"2025-10-01\",\n  \"service_desc\": \"Oil change\",\n  \"customer_id\": 1\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/service-tickets/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"service-tickets",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Tickets",
+					"id": "48910422-c221e970-fd98-459e-be45-05d414064dd9",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/service-tickets/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"service-tickets",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Assign Mechanic",
+					"id": "48910422-9f7c0d9d-c069-4871-b632-5a45761232bf",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/service-tickets/1/assign-mechanic/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"service-tickets",
+								"1",
+								"assign-mechanic",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Remove Mechanic",
+					"id": "48910422-3ca7f456-c103-4ada-be98-8572e75af09d",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/service-tickets/1/remove-mechanic/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"service-tickets",
+								"1",
+								"remove-mechanic",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add Part",
+					"id": "48910422-2cd07e24-2ae4-467f-adfb-e2d3667d7843",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/service-tickets/1/add-part/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"service-tickets",
+								"1",
+								"add-part",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Remove Part",
+					"id": "48910422-3a994a3e-0a31-4587-8968-06de21745c78",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/service-tickets/1/remove-part/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"service-tickets",
+								"1",
+								"remove-part",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Ticket",
+					"id": "48910422-4f2ce4ef-33bd-4cca-95b2-44a73f6cc65b",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/service-tickets/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"service-tickets",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"id": "48910422-30f18d7e-b0fc-4f72-ae59-80169938066d"
+		},
+		{
+			"name": "Inventory",
+			"item": [
+				{
+					"name": "Create Part",
+					"id": "48910422-8eca8c68-5e1f-45a4-a2bd-0c9274481ff5",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Brake Pad\",\n  \"price\": 49.99\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/inventory/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"inventory",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Parts",
+					"id": "48910422-a1463500-bdae-4a61-832d-e2db942c67a7",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/inventory/",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"inventory",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Part by ID",
+					"id": "48910422-49bfd186-3898-4691-a456-e1b675cf8893",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/inventory/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"inventory",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Part",
+					"id": "48910422-60eadccf-f035-4725-bee9-4b8d01c08b2e",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{ \"price\": 59.99 }"
+						},
+						"url": {
+							"raw": "{{base_url}}/inventory/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"inventory",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Part",
+					"id": "48910422-99334edd-6158-4634-89ba-78865d4b68fd",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/inventory/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"inventory",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add Part to Ticket",
+					"id": "48910422-0156d0be-a481-4f25-bbc2-05664dbbe637",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/inventory/add-to-ticket/1/1",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"inventory",
+								"add-to-ticket",
+								"1",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"id": "48910422-e5c77bbe-ddcc-4c62-963d-9ae941d4d51b"
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "http://127.0.0.1:5000"
+		},
+		{
+			"key": "token",
+			"value": ""
+		}
+	]
+}
