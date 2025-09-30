@@ -1,3 +1,4 @@
+#app/inventory/routes.py
 from flask import request, jsonify
 from app.extensions import db, limiter, cache
 from app.models import Inventory, ServiceTicket

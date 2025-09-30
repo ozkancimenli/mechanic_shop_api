@@ -1,3 +1,4 @@
+#app/__init__.py
 from flask import Flask
 from .extensions import db, ma, limiter, cache
 from .models import Base
