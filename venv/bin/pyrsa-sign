@@ -1,5 +1,5 @@
 #!/bin/sh
-'''exec' "/Users/ozkancimenli/Desktop/course/19 - Project Planning and Database Design/Lesson 2- ORMs and Database representation using SQLAlchemy/mechanic_shop_api/venv/bin/python3" "$0" "$@"
+'''exec' "/Users/ozkancimenli/Desktop/course/20 - Preparing and Publishing Your APIs/mechanic_shop_api/venv/bin/python" "$0" "$@"
 ' '''
 # -*- coding: utf-8 -*-
 import re

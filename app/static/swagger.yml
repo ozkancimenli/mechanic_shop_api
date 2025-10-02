@@ -1,0 +1,262 @@
+swagger: "2.0"
+info:
+  version: "1.0.0"
+  title: "Mechanic Shop API"
+  description: "Flask REST API with Swagger Documentation for Mechanics, Customers, and Service Tickets"
+host: "localhost:5000"
+basePath: "/"
+schemes:
+  - "http"
+
+paths:
+  /mechanics:
+    get:
+      tags:
+        - Mechanics
+      summary: "Get all mechanics"
+      description: "Returns a list of all mechanics"
+      responses:
+        200:
+          description: "A list of mechanics"
+          examples:
+            application/json: [
+              {"id": 1, "name": "John Doe", "specialty": "Engine Repair"}
+            ]
+    post:
+      tags:
+        - Mechanics
+      summary: "Create a new mechanic"
+      description: "Adds a new mechanic to the database"
+      parameters:
+        - in: body
+          name: body
+          description: Mechanic object
+          required: true
+          schema:
+            $ref: "#/definitions/Mechanic"
+      responses:
+        201:
+          description: "Mechanic created"
+          examples:
+            application/json: {"id": 2, "name": "Jane Doe", "specialty": "Transmission"}
+
+  /mechanics/{id}:
+    get:
+      tags:
+        - Mechanics
+      summary: "Get mechanic by ID"
+      description: "Retrieve a single mechanic by ID"
+      parameters:
+        - name: id
+          in: path
+          required: true
+          type: integer
+      responses:
+        200:
+          description: "Mechanic found"
+          examples:
+            application/json: {"id": 1, "name": "John Doe", "specialty": "Engine Repair"}
+        404:
+          description: "Mechanic not found"
+    put:
+      tags:
+        - Mechanics
+      summary: "Update mechanic"
+      description: "Update mechanic details by ID"
+      parameters:
+        - name: id
+          in: path
+          required: true
+          type: integer
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref: "#/definitions/Mechanic"
+      responses:
+        200:
+          description: "Mechanic updated"
+    delete:
+      tags:
+        - Mechanics
+      summary: "Delete mechanic"
+      description: "Delete mechanic by ID"
+      parameters:
+        - name: id
+          in: path
+          required: true
+          type: integer
+      responses:
+        204:
+          description: "Mechanic deleted"
+
+  /customers:
+    get:
+      tags:
+        - Customers
+      summary: "Get all customers"
+      description: "Returns a list of all customers"
+      responses:
+        200:
+          description: "A list of customers"
+          examples:
+            application/json: [
+              {"id": 1, "name": "Alice Smith", "phone": "555-1234"}
+            ]
+    post:
+      tags:
+        - Customers
+      summary: "Create a new customer"
+      description: "Adds a new customer to the database"
+      parameters:
+        - in: body
+          name: body
+          description: Customer object
+          required: true
+          schema:
+            $ref: "#/definitions/Customer"
+      responses:
+        201:
+          description: "Customer created"
+
+  /customers/{id}:
+    get:
+      tags:
+        - Customers
+      summary: "Get customer by ID"
+      parameters:
+        - name: id
+          in: path
+          required: true
+          type: integer
+      responses:
+        200:
+          description: "Customer found"
+    put:
+      tags:
+        - Customers
+      summary: "Update customer"
+      parameters:
+        - name: id
+          in: path
+          required: true
+          type: integer
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref: "#/definitions/Customer"
+      responses:
+        200:
+          description: "Customer updated"
+    delete:
+      tags:
+        - Customers
+      summary: "Delete customer"
+      parameters:
+        - name: id
+          in: path
+          required: true
+          type: integer
+      responses:
+        204:
+          description: "Customer deleted"
+
+  /service-tickets:
+    get:
+      tags:
+        - Service Tickets
+      summary: "Get all service tickets"
+      description: "Returns a list of all service tickets"
+      responses:
+        200:
+          description: "A list of service tickets"
+    post:
+      tags:
+        - Service Tickets
+      summary: "Create a new service ticket"
+      parameters:
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref: "#/definitions/ServiceTicket"
+      responses:
+        201:
+          description: "Service ticket created"
+
+  /service-tickets/{id}:
+    get:
+      tags:
+        - Service Tickets
+      summary: "Get service ticket by ID"
+      parameters:
+        - name: id
+          in: path
+          required: true
+          type: integer
+      responses:
+        200:
+          description: "Service ticket found"
+    put:
+      tags:
+        - Service Tickets
+      summary: "Update service ticket"
+      parameters:
+        - name: id
+          in: path
+          required: true
+          type: integer
+        - in: body
+          name: body
+          required: true
+          schema:
+            $ref: "#/definitions/ServiceTicket"
+      responses:
+        200:
+          description: "Service ticket updated"
+    delete:
+      tags:
+        - Service Tickets
+      summary: "Delete service ticket"
+      parameters:
+        - name: id
+          in: path
+          required: true
+          type: integer
+      responses:
+        204:
+          description: "Service ticket deleted"
+
+definitions:
+  Mechanic:
+    type: object
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+      specialty:
+        type: string
+  Customer:
+    type: object
+    properties:
+      id:
+        type: integer
+      name:
+        type: string
+      phone:
+        type: string
+  ServiceTicket:
+    type: object
+    properties:
+      id:
+        type: integer
+      description:
+        type: string
+      status:
+        type: string
+      mechanic_id:
+        type: integer
+      customer_id:
+        type: integer
