@@ -3,7 +3,7 @@ info:
   version: "1.0.0"
   title: "Mechanic Shop API"
   description: "Flask REST API with Swagger Documentation for Mechanics, Customers, and Service Tickets"
-host: "dpg-d3fb4bnfte5s739vutk0-a.onrender.com"
+host: "mechanic-shop-api-hf0y.onrender.com"
 basePath: "/"
 schemes:
   - "https"
