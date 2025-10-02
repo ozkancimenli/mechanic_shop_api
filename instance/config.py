@@ -1,4 +1,3 @@
-# instance/config.py
 import os
 
 class DevelopmentConfig:
@@ -6,7 +5,7 @@ class DevelopmentConfig:
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     DEBUG = True
     CACHE_TYPE = "SimpleCache"
-    SECRET_KEY = "dev-secret-key"  
+    SECRET_KEY = "dev-secret-key"
 
 
 class TestingConfig:
