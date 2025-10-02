@@ -20,3 +20,6 @@ python-jose==3.3.0
 # Rate Limiting & Caching
 flask-limiter==3.9.2
 flask-caching==2.3.0
+
+# API Docs
+flask-swagger-ui==4.11.1
