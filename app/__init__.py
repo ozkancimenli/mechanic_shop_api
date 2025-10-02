@@ -6,11 +6,17 @@ from .service_ticket import service_ticket_bp
 from .customer import customer_bp
 from .inventory import inventory_bp  # ✅ new blueprint
 
-def create_app(config_class):
+def create_app(config_class=None, test_config=None):
     app = Flask(__name__, instance_relative_config=True)
 
-    # Config class (DevelopmentConfig, ProductionConfig vs.)
-    app.config.from_object(config_class)
+    # Eğer test_config geldiyse onu kullan
+    if test_config:
+        app.config.update(test_config)
+    elif config_class:
+        app.config.from_object(config_class)
+    else:
+        # fallback olarak instance/config.py yükle
+        app.config.from_pyfile("config.py", silent=True)
 
     # init extensions
     db.init_app(app)
