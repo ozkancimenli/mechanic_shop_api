@@ -1,19 +1,6 @@
-import unittest
-from app import create_app, db
+from app.tests.base_test import BaseTestCase
 
-class TestMechanics(unittest.TestCase):
-    def setUp(self):
-        self.app = create_app("config.py")
-        self.app.testing = True
-        self.client = self.app.test_client()
-        with self.app.app_context():
-            db.create_all()
-
-    def tearDown(self):
-        with self.app.app_context():
-            db.session.remove()
-            db.drop_all()
-
+class TestMechanics(BaseTestCase):
     def test_get_mechanics_empty(self):
         res = self.client.get("/mechanics/")
         self.assertEqual(res.status_code, 200)
@@ -24,7 +11,7 @@ class TestMechanics(unittest.TestCase):
             "name": "John Doe",
             "email": "john@example.com",
             "phone": "555-111-2222",
-            "salary": 50000.0
+            "salary": 50000
         }
         res = self.client.post("/mechanics/", json=payload)
         self.assertEqual(res.status_code, 201)

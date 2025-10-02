@@ -1,19 +1,6 @@
-import unittest
-from app import create_app, db
+from app.tests.base_test import BaseTestCase
 
-class TestInventory(unittest.TestCase):
-    def setUp(self):
-        self.app = create_app("config.py")
-        self.app.testing = True
-        self.client = self.app.test_client()
-        with self.app.app_context():
-            db.create_all()
-
-    def tearDown(self):
-        with self.app.app_context():
-            db.session.remove()
-            db.drop_all()
-
+class TestInventory(BaseTestCase):
     def test_get_inventory_empty(self):
         res = self.client.get("/inventory/")
         self.assertEqual(res.status_code, 200)
@@ -22,7 +9,6 @@ class TestInventory(unittest.TestCase):
     def test_create_inventory_item(self):
         payload = {
             "name": "Brake Pad",
-            "stock": 20,       # ⚠️ modelinde stock yerine quantity/amount varsa değiştir
             "price": 49.99
         }
         res = self.client.post("/inventory/", json=payload)

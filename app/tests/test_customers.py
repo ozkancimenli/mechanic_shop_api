@@ -1,19 +1,6 @@
-import unittest
-from app import create_app, db
+from app.tests.base_test import BaseTestCase
 
-class TestCustomers(unittest.TestCase):
-    def setUp(self):
-        self.app = create_app("config.py")
-        self.app.testing = True
-        self.client = self.app.test_client()
-        with self.app.app_context():
-            db.create_all()
-
-    def tearDown(self):
-        with self.app.app_context():
-            db.session.remove()
-            db.drop_all()
-
+class TestCustomers(BaseTestCase):
     def test_get_customers_empty(self):
         res = self.client.get("/customers/")
         self.assertEqual(res.status_code, 200)
@@ -31,6 +18,6 @@ class TestCustomers(unittest.TestCase):
         self.assertIn("id", res.json)
 
     def test_create_customer_missing_field(self):
-        payload = {"name": "Alice"}  # eksik email, phone, password
+        payload = {"name": "Alice"}  # email/phone/password eksik
         res = self.client.post("/customers/", json=payload)
         self.assertEqual(res.status_code, 400)
