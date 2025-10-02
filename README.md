@@ -1,22 +1,22 @@
-## Mechanic Shop API
+# Mechanic Shop API
 
 Flask REST API built with **Application Factory Pattern**, **Blueprints**, and **SQLAlchemy ORM**.  
 Implements **Mechanics, Customers, Service Tickets, Inventory**, and a modeled junction table (`MechanicServiceTicket`) that stores assignment metadata (e.g., `start_date`).  
 
-Supports:  
+# Supports:  
 - 🔐 JWT authentication for customers (`/login`, `/my-tickets`)  
 - ⚡ Rate limiting with **Flask-Limiter**  
 - 🗃️ Caching with **Flask-Caching**  
 - 📊 Popular mechanics query  
 - 🧩 Many-to-Many with parts (inventory ↔ service tickets)  
+- 📑 Swagger documentation  
+- ✅ Unit testing with `unittest`
 
 ---
 
 ## 🚀 Setup
 
 ```
-git clone <repo-url>
-cd mechanic_shop_api
 python -m venv venv
 source venv/bin/activate   # On Windows: venv\Scripts\activate
 pip install -r requirements.txt
@@ -24,12 +24,9 @@ pip install -r requirements.txt
 ## ⚙️ Run App
 ```
 flask --app run.py run --debug
-```
-Or simply:
-```
+# or
 python run.py
 ```
-
 ## 🗄️ Database
 - Default DB connection: MySQL (instance/config.py)
 - Update credentials before running.
@@ -38,38 +35,57 @@ python run.py
 ## 📌 Endpoints
 # Mechanics
 - POST /mechanics/ → create mechanic
+
 - GET /mechanics/ → list mechanics
+
 - PUT /mechanics/<id> → update mechanic
+
 - DELETE /mechanics/<id> → delete mechanic
+
 - GET /mechanics/popular → mechanics ordered by most tickets
 
 # Service Tickets
 - POST /service-tickets/ → create ticket
+
 - GET /service-tickets/ → list tickets
-- PUT /service-tickets/<ticket_id>/assign-mechanic/<mechanic_id> → assign mechanic (creates junction row with start_date)
-- PUT /service-tickets/<ticket_id>/remove-mechanic/<mechanic_id> → remove mechanic from ticket
-- PUT /service-tickets/<ticket_id>/add-part/<part_id> → add part to ticket
-- PUT /service-tickets/<ticket_id>/remove-part/<part_id> → remove part from ticket
+
+- PUT /service-tickets/<ticket_id>/assign-mechanic/<mechanic_id> → assign mechanic
+
+- PUT /service-tickets/<ticket_id>/remove-mechanic/<mechanic_id> → remove mechanic
+
+- PUT /service-tickets/<ticket_id>/add-part/<part_id> → add part
+
+- PUT /service-tickets/<ticket_id>/remove-part/<part_id> → remove part
+
 - DELETE /service-tickets/<id> → delete ticket
 
 # Customers
 - POST /customers/ → create customer
+
 - POST /customers/login → login, returns JWT token
-- GET /customers/ → list customers (supports limit & offset pagination)
-- GET /customers/my-tickets → get own tickets (requires Bearer token)
+
+- GET /customers/ → list customers (limit & offset)
+
+- GET /customers/my-tickets → get own tickets (Bearer token)
+
 - PUT /customers/<id> → update customer (password hashed)
+
 - DELETE /customers/<id> → delete customer
 
 # Inventory
 - POST /inventory/ → create part
+
 - GET /inventory/ → list all parts (cached)
+
 - GET /inventory/<id> → get part by id
+
 - PUT /inventory/<id> → update part
+
 - DELETE /inventory/<id> → delete part
+
 - PUT /inventory/add-to-ticket/<ticket_id>/<part_id> → add part to ticket
 
 ## 🔗 Junction Table Behavior
-The API uses a modeled junction table:
 ```
 class MechanicServiceTicket(Base):
     __tablename__ = "mechanic_service_tickets"
@@ -77,8 +93,9 @@ class MechanicServiceTicket(Base):
     ticket_id
     start_date
 ```
-- Assigning a mechanic → new row with start_date.
-- Removing a mechanic → row is deleted.
+- Assigning a mechanic → new row with start_date
+
+- Removing a mechanic → row is deleted
 
 ## 🛠️ Example Requests
 # Create Mechanic
@@ -101,11 +118,7 @@ POST /service-tickets/
   "customer_id": 1
 }
 ```
-# Assign Mechanic
-```
-PUT /service-tickets/1/assign-mechanic/2
-```
-Login Customer
+# Login Customer
 ```
 POST /customers/login
 {
@@ -113,22 +126,28 @@ POST /customers/login
   "password": "secret"
 }
 ```
-Response:
+# Response:
 ```
 {
   "status": "success",
   "token": "<JWT_TOKEN>"
 }
 ```
-Use this token in Authorization header:
+# Use in header:
+```
 Authorization: Bearer <JWT_TOKEN>
-
+```
 ## 📦 Postman Collection
 A ready-to-use Postman collection is included:
 ```
 postman/collections/mechanic-shop.json
 ```
-To use:
-1. Open Postman → Import
-2. Select the file → all requests are preloaded
-3. Update {{base_url}} and {{token}} variables as needed
+Import into Postman → set {{base_url}} and {{token}}.
+
+## 📑 Documentation & Testing
+- Swagger UI available at: /swagger
+- Unit tests (with SQLite in-memory):
+```
+python -m unittest discover -s app/tests -p "test_*.py"
+```
+All routes tested (positive + negative cases). ✅
