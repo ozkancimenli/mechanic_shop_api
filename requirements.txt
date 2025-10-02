@@ -23,3 +23,5 @@ flask-caching==2.3.0
 
 # API Docs
 flask-swagger-ui==4.11.1
+
+flask-swagger-ui==4.11.1
