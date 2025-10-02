@@ -2,9 +2,10 @@ from datetime import datetime, timedelta, timezone
 from functools import wraps
 from flask import request, jsonify
 from jose import jwt, JWTError, ExpiredSignatureError
+import os
 
 # ⚠️ Move this to config if possible
-SECRET_KEY = "super-secret-key"
+SECRET_KEY = os.environ.get("SECRET_KEY") or "super-secret-key"
 ALGORITHM = "HS256"
 
 def encode_token(customer_id: int):
