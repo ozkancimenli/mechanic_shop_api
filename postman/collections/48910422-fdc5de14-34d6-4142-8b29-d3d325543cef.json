@@ -28,9 +28,12 @@
 							"raw": "{\n  \"name\": \"John Doe\",\n  \"email\": \"john@example.com\",\n  \"phone\": \"123456789\",\n  \"salary\": 50000\n}"
 						},
 						"url": {
-							"raw": "{{base_url}}/mechanics/",
+							"raw": "https://mechanic-shop-api-hf0y.onrender.com/mechanics/",
+							"protocol": "https",
 							"host": [
-								"{{base_url}}"
+								"mechanic-shop-api-hf0y",
+								"onrender",
+								"com"
 							],
 							"path": [
 								"mechanics",
@@ -50,9 +53,12 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{base_url}}/mechanics/",
+							"raw": "https://mechanic-shop-api-hf0y.onrender.com/mechanics/",
+							"protocol": "https",
 							"host": [
-								"{{base_url}}"
+								"mechanic-shop-api-hf0y",
+								"onrender",
+								"com"
 							],
 							"path": [
 								"mechanics",
